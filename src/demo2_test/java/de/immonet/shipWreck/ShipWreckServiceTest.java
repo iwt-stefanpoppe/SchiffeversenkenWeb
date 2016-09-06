@@ -134,7 +134,7 @@ public class ShipWreckServiceTest {
 
         String s=sws.evaluateTipp(12);
 
-        assertEquals(s.contains("Verfehlt"),true);
+        assertEquals(s.contains("verfehlt"),true);
     }
 
     @Test(timeout = 1000)
@@ -175,9 +175,9 @@ public class ShipWreckServiceTest {
         Ship ship1 = new Ship(ship1Location,"1");
 
         ArrayList<Integer> ship2Location = new ArrayList<>();
-        ship2Location.add(4);
-        ship2Location.add(5);
-        ship2Location.add(6);
+        ship2Location.add(16);
+        ship2Location.add(23);
+        ship2Location.add(30);
         Ship ship2 = new Ship(ship2Location,"2");
 
         ArrayList<Ship> shipList= new ArrayList<>();
@@ -204,9 +204,9 @@ public class ShipWreckServiceTest {
         Ship ship1 = new Ship(ship1Location,"1");
 
         ArrayList<Integer> ship2Location = new ArrayList<>();
-        ship2Location.add(4);
-        ship2Location.add(5);
-        ship2Location.add(6);
+        ship2Location.add(16);
+        ship2Location.add(23);
+        ship2Location.add(30);
         Ship ship2 = new Ship(ship2Location,"2");
 
         ArrayList<Ship> shipList= new ArrayList<>();
@@ -218,9 +218,9 @@ public class ShipWreckServiceTest {
         sws.evaluateTipp(1);
         sws.evaluateTipp(2);
         sws.evaluateTipp(3);
-        sws.evaluateTipp(4);
-        sws.evaluateTipp(5);
-        sws.evaluateTipp(6);
+        sws.evaluateTipp(16);
+        sws.evaluateTipp(23);
+        sws.evaluateTipp(30);
         String s =sws.evaluateTipp(7);
 
         assertEquals(s.contains("alle"),true);

@@ -13,46 +13,79 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/schiffeversenken")
 public class ShipWreckController {
-    ShipWreckService wreckService =new ShipWreckService();
+    ShipWreckService wreckService = new ShipWreckService();
 
-    @RequestMapping(value = "/raten",method = RequestMethod.PUT)
-    public String Schuss(@RequestParam(value="tipp", defaultValue="X9") String tipp){
+    @RequestMapping(value = "/raten", method = RequestMethod.PUT)
+    public String shot(@RequestParam(value = "tipp", defaultValue = "X9") String tipp) {
+
+        String output="<head><link rel=\"stylesheet\" href=\"http://localhost:8090/schiffeversenken/style\" type=\"text/css\"></head>";
+
         wreckService.run(tipp);
-        String text="<div> <h3> Was hat ihr Schuss bewirkt? </h3> </div>";
 
-        return text + "<div>" + wreckService.getGameHistory() + "</div>";
+         output += "<body><h3> Was hat ihr Schuss bewirkt? </h3> ";
+
+        return output + "<div>" + wreckService.getGameHistory() + "</div></body>";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void restart(){
+    public void restart() {
         wreckService = new ShipWreckService();
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String Zwischenstand(){
-        String text = "<h3>Welche Schiffe schwimmen noch?</h3>";
 
-        text = printShips(text);
+        String output="<head><link rel=\"stylesheet\" href=\"http://localhost:8090/schiffeversenken/style\" type=\"text/css\"></head>";
 
-        text = printWracks(text);
+        output += "<h3>Welche Schiffe schwimmen noch?</h3>";
 
-        text+="</body>";
-        return text;
+        output = printShips(output);
+
+        output = printWracks(output);
+
+        output += "</body>";
+        return output;
+    }
+
+    @RequestMapping(value = "/spielbrett", method = RequestMethod.GET)
+    public String showGamefield(){
+        String output="<head><link rel=\"stylesheet\" href=\"http://localhost:8090/schiffeversenken/style\" type=\"text/css\"></head><p><tab indent=20>0123456<br>";
+
+        char[] gameFieldSetup = wreckService.getGameField().getSetup();
+
+        String alphabet="ABCDEFG";
+        int j=0;
+        for (int i = 0; i < 49; i++) {
+            if(i%7 == 0){
+                output += alphabet.charAt(j++) ;
+            }
+            output += gameFieldSetup[i] == '~'? "<span class=\"wave\">~</span>" : "<span class=\"critical\">" + gameFieldSetup[i]+"</span>" ;
+            if (i % 7 == 6) {
+                output += "<br>";
+            }
+        }
+        return output;
+    }
+
+    @RequestMapping(value = "/style",method = RequestMethod.GET)
+    public String getStylesheet() {
+        String stylesheet =
+                ".wave{color: #00D8FF;}.critical{color: #EB3900}.success{color: #1ca507;";
+        return stylesheet;
     }
 
     private String printWracks(String text) {
-        for (int i = 0 ; i<wreckService.getShipWrecks().size() ; i++){
-            text += "<div><font color=#EB3900>Die " + wreckService.shipWrecks.get(i) + " wurde bereits versenkt.</font><div>";
+        for (int i = 0; i < wreckService.getShipWrecks().size(); i++) {
+            text += "<p class= \"critical\">Die " + wreckService.shipWrecks.get(i) + " wurde bereits versenkt.</p>";
         }
         return text;
     }
 
     private String printShips(String text) {
-        for (int i = 0; i<wreckService.getShipList().size();i++){
-            boolean floating= selectedShip(i).isFloating();
+        for (int i = 0; i < wreckService.getShipList().size(); i++) {
             String name = selectedShip(i).getName();
             String hitCount = "" + selectedShip(i).getHit();
-            text+= "<div><font color=#00D8FF>Die " + name + " schwimmt noch und wurde " + hitCount +"-mal getroffen.</font></div>";
+            text += "<p class= \"wave\">Die " + name + " schwimmt noch und wurde " + hitCount + "-mal getroffen.</p>";
         }
         return text;
     }

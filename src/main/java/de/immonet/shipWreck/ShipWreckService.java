@@ -13,13 +13,13 @@ public class ShipWreckService {
     private String gameHistory = "";
     ArrayList<Ship> shipList = new ArrayList<Ship>();
     ArrayList<String> shipWrecks=new ArrayList<>();
+    GameField gameField = new GameField();
+    public static final int GAMEOVER = 3;
 
     public ShipWreckService() {
         setShips();
+        gameField.setUpField();
     }
-
-    public static final int GAMEOVER = 3;
-
 
     public ArrayList<Ship> setShips() {
 
@@ -33,9 +33,7 @@ public class ShipWreckService {
         return shipList;
     }
 
-
     public void run(String playerTippString) {
-
 
         int playerTipp = Helper.inputEvaluator(playerTippString);
 
@@ -56,19 +54,21 @@ public class ShipWreckService {
             boolean gotHit = shipList.get(i).controlYourself(playerTipp);
 
             if (gotHit) {
-                gameHistory = ("<div><font color=#27D800>Treffer auf der " + shipList.get(i).getName() + "!</font></div>");
+                gameHistory = ("<p class=\"success\">Treffer auf der " + shipList.get(i).getName() + "!</p>");
+                gameField.xOutHit(playerTipp);
                 hitCount++;
             }
             if (!shipList.get(i).isFloating()) {
-                gameHistory = ("<div><font color=#27D800>Die " + shipList.get(i).getName() + " wurde versenkt!</font></div>");
+                gameHistory = ("<p class=\"success\">Die " + shipList.get(i).getName() + " wurde versenkt!</p>");
                 wreckTheShip(i);
             }
 
         }
         if (hitCount == 0) {
-            gameHistory = shipList.isEmpty() ? "<div><font color=<div><font color=#27D800>Sie haben alle Schiffe vesenkt." +
-                    " Herzlichen Glückwunsch!</font></div>" : "<div><font color=#ED1600>Ihr Schuss hat verfehlt!";
+            gameHistory = shipList.isEmpty() ? "<p class= \"success\"> Sie haben alle Schiffe vesenkt." +
+                    " Herzlichen Glückwunsch!</p>" : "<p class=\"critical\">Ihr Schuss hat verfehlt!</p>";
         }
+        gameField.printField();
         return gameHistory;
     }
 
@@ -135,6 +135,10 @@ public class ShipWreckService {
     }
     public ArrayList<String> getShipWrecks() {
         return shipWrecks;
+    }
+
+    public GameField getGameField() {
+        return gameField;
     }
 }
 
