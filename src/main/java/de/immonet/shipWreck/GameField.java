@@ -24,8 +24,8 @@ public class GameField {
         System.out.println("\n");
     }
 
-    public void xOutHit(int i) {
-        setup[i]='x';
+    public void setHit(int i,char icon) {
+        setup[i]=icon;
     }
 
     public char[] getSetup() {

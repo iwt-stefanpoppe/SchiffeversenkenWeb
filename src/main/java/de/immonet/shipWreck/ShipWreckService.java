@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class ShipWreckService {
     private String gameHistory = "";
     ArrayList<Ship> shipList = new ArrayList<Ship>();
-    ArrayList<String> shipWrecks=new ArrayList<>();
+    ArrayList<String> shipWrecks = new ArrayList<>();
     GameField gameField = new GameField();
     public static final int GAMEOVER = 3;
 
@@ -25,7 +25,7 @@ public class ShipWreckService {
 
         Ship[] gameShips = createShipArray();
 
-        overlayPrevention(gameShips);
+        gameShips = overlayPrevention(gameShips);
 
         for (int i = 0; i < GAMEOVER; i++) {
             shipList.add(gameShips[i]);
@@ -47,29 +47,48 @@ public class ShipWreckService {
 
     }
 
+    public void run(int playerTipp) {
+        if (playerTipp < 0 || playerTipp > 49) {
+            gameHistory = "Bitte geben sie nur Kombinationen von A0-G6 ein!";
+
+        } else {
+            evaluateTipp(playerTipp);
+        }
+    }
+
     public String evaluateTipp(int playerTipp) {
         int hitCount = 0;
         for (int i = 0; i < shipList.size(); i++) {
-
             boolean gotHit = shipList.get(i).controlYourself(playerTipp);
 
             if (gotHit) {
                 gameHistory = ("<p class=\"success\">Treffer auf der " + shipList.get(i).getName() + "!</p>");
-                gameField.xOutHit(playerTipp);
+                gameField.setHit(playerTipp, 'x');
                 hitCount++;
             }
             if (!shipList.get(i).isFloating()) {
                 gameHistory = ("<p class=\"success\">Die " + shipList.get(i).getName() + " wurde versenkt!</p>");
                 wreckTheShip(i);
             }
+        }
 
-        }
-        if (hitCount == 0) {
-            gameHistory = shipList.isEmpty() ? "<p class= \"success\"> Sie haben alle Schiffe vesenkt." +
-                    " Herzlichen Glückwunsch!</p>" : "<p class=\"critical\">Ihr Schuss hat verfehlt!</p>";
-        }
-        gameField.printField();
-        return gameHistory;
+            if (hitCount == 0) {
+
+                if (shipList.isEmpty()) {
+                    gameHistory = "<p><a class= \"success restart\" " +
+                            "href=\"http://localhost:8090/schiffeversenken/neustart\"" +
+                            " title=\"Sie werden nicht glauben was passiert, wenn sie hier klicken!\">" +
+                            " Sie haben alle Schiffe vesenkt. Herzlichen Glückwunsch!</a></p>";
+
+
+                } else {
+                    gameHistory = "<p class=\"critical\">Ihr Schuss hat verfehlt!</p>";
+                    gameField.setHit(playerTipp, 'o');
+                }
+            }
+            gameField.printField();
+            return gameHistory;
+
     }
 
     private void wreckTheShip(int i) {
@@ -96,13 +115,15 @@ public class ShipWreckService {
 
             for (int i = 0; i < gameShips.length; i++) {
                 for (int j = 0; j < gameShips.length; j++) {
-                    if(i==j){continue;}
+                    if (i == j) {
+                        continue;
+                    }
                     boolean a = overlayCompare(gameShips[i], gameShips[j]);
                     evaluation.add(a);
                 }
             }
             if (evaluation.contains(true)) {
-                gameShips=createShipArray();
+                gameShips = createShipArray();
                 noOverlay = false;
             }
         } while (!noOverlay);
@@ -133,6 +154,7 @@ public class ShipWreckService {
     public ArrayList<Ship> getShipList() {
         return shipList;
     }
+
     public ArrayList<String> getShipWrecks() {
         return shipWrecks;
     }
