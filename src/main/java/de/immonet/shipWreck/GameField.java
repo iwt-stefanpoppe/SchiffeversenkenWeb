@@ -1,17 +1,16 @@
 package de.immonet.shipWreck;
 
+import java.util.ArrayList;
+
 /**
  * Created by spoppe on 05.09.2016.
  */
 public class GameField {
 
-    private char[] setup;
+    private char[] setup  ;
 
-    public void setUpField() {
-        setup = new char[49];
-        for (int i = 0; i < 49; i++) {
-            setup[i] = '~';
-        }
+    public GameField(char[] setup) {
+        this.setup = setup;
     }
 
     public void printField() {

@@ -16,8 +16,6 @@ public class Ship {
 
     public boolean controlYourself(Integer spielerTipp) {
 
-        int spielerTippInt = 0;
-
         boolean getroffen = false;
 
         if (cellLocation.contains(spielerTipp)) {
@@ -60,17 +58,10 @@ public class Ship {
         return floating;
     }
 
-    public void setFloating(boolean floatingState) {
-        this.floating = floatingState;
-    }
 
     public int getHit() {
 
         return hit;
-    }
-
-    public void setHit(int aHit) {
-        hit = aHit;
     }
 
     public ArrayList<Integer> getCellLocation() {

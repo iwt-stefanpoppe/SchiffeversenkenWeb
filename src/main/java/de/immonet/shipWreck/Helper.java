@@ -45,14 +45,5 @@ abstract class Helper {
         return result;
     }
 
-    public static void htmlCreater(String filename,String text) {
-        File f = new File(filename);
-        try {
-            BufferedWriter bw =new BufferedWriter(new FileWriter(f));
-            bw.write(text);
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

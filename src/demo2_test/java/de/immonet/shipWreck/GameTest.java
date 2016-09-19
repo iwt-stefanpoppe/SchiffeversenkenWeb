@@ -10,14 +10,14 @@ import static org.junit.Assert.*;
 /**
  * Created by spoppe on 02.09.2016.
  */
-public class ShipWreckServiceTest {
+public class GameTest {
 
 
 
     @Test(timeout = 1000)
     public void overlayPreventionRunsNormallyNoOverlaysInShips()throws Exception{
 
-        ShipWreckService sws = new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -33,14 +33,14 @@ public class ShipWreckServiceTest {
 
         Ship[] ships = {ship1,ship2};
 
-        sws.overlayPrevention(ships);
+        g.overlayPrevention(ships);
 
     }
 
     @Test//(timeout = 1000)
     public void overlayPreventionRunsNormally1OverlayInShips()throws Exception{
 
-         ShipWreckService sws = new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -56,14 +56,14 @@ public class ShipWreckServiceTest {
 
         Ship[] ships = {ship1,ship2};
 
-        sws.overlayPrevention(ships);
+        g.overlayPrevention(ships);
 
     }
 
     @Test(timeout = 1000)
     public void overlayPreventionRunsNormally2OverlayInShips()throws Exception{
 
-        ShipWreckService sws = new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -79,14 +79,14 @@ public class ShipWreckServiceTest {
 
         Ship[] ships = {ship1,ship2};
 
-        sws.overlayPrevention(ships);
+        g.overlayPrevention(ships);
 
     }
 
     @Test(timeout = 1000)
     public void overlayPreventionRunsNormally3OverlayInShips()throws Exception{
 
-        ShipWreckService sws = new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -102,7 +102,7 @@ public class ShipWreckServiceTest {
 
         Ship[] ships = {ship1,ship2};
 
-        sws.overlayPrevention(ships);
+        g.overlayPrevention(ships);
 
     }
 
@@ -114,7 +114,7 @@ public class ShipWreckServiceTest {
     @Test(timeout = 1000)
     public void evaluateTippReturnsVerfehltNumberNotMatchingLocation()throws Exception{
 
-        ShipWreckService sws = new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -132,14 +132,14 @@ public class ShipWreckServiceTest {
         shipList.add(ship1);
         shipList.add(ship2);
 
-        String s=sws.evaluateTipp(12);
+        String s=g.evaluateTipp(12);
 
         assertEquals(s.contains("verfehlt"),true);
     }
 
     @Test(timeout = 1000)
     public void evaluateTippReturnsTrefferNumberMatchingLocation()throws Exception{
-        ShipWreckService sws= new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -157,16 +157,16 @@ public class ShipWreckServiceTest {
         shipList.add(ship1);
         shipList.add(ship2);
 
-        sws.setShipList(shipList);
+        g.setShipList(shipList);
 
-        String s=sws.evaluateTipp(1);
+        String s=g.evaluateTipp(1);
 
         assertEquals(s.contains("Treffer"),true);
     }
 
     @Test(timeout = 1000)
     public void evaluateTippReturnsWurdeVersenktMatchingLocationsOfOneShip()throws Exception{
-        ShipWreckService sws= new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -184,18 +184,18 @@ public class ShipWreckServiceTest {
         shipList.add(ship1);
         shipList.add(ship2);
 
-        sws.setShipList(shipList);
+        g.setShipList(shipList);
 
-        sws.evaluateTipp(1);
-        sws.evaluateTipp(2);
-        String s=sws.evaluateTipp(3);
+        g.evaluateTipp(1);
+        g.evaluateTipp(2);
+        String s=g.evaluateTipp(3);
 
         assertEquals(s.contains("wurde versenkt"),true);
     }
 
     @Test (timeout = 1000)
     public void evaluateTippReturnsAlleMatchingLocationsOfAllShips()throws Exception{
-        ShipWreckService sws= new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -213,15 +213,15 @@ public class ShipWreckServiceTest {
         shipList.add(ship1);
         shipList.add(ship2);
 
-        sws.setShipList(shipList);
+        g.setShipList(shipList);
 
-        sws.evaluateTipp(1);
-        sws.evaluateTipp(2);
-        sws.evaluateTipp(3);
-        sws.evaluateTipp(16);
-        sws.evaluateTipp(23);
-        sws.evaluateTipp(30);
-        String s =sws.evaluateTipp(7);
+        g.evaluateTipp(1);
+        g.evaluateTipp(2);
+        g.evaluateTipp(3);
+        g.evaluateTipp(16);
+        g.evaluateTipp(23);
+        g.evaluateTipp(30);
+        String s =g.evaluateTipp(7);
 
         assertEquals(s.contains("alle"),true);
     }
@@ -232,7 +232,7 @@ public class ShipWreckServiceTest {
     @Test
     public void overlapCompareReturnsTrueShipsAreEqual() throws Exception {
 
-        ShipWreckService sws = new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -246,7 +246,7 @@ public class ShipWreckServiceTest {
         ship2Location.add(3);
         Ship ship2 = new Ship(ship2Location,"2");
 
-        boolean a = sws.overlayCompare(ship1,ship2);
+        boolean a = g.overlayCompare(ship1,ship2);
 
         assertEquals(a,true);
     }
@@ -254,7 +254,7 @@ public class ShipWreckServiceTest {
     @Test
     public void overlapCompareReturnsTrueShipsHaveOneEqualPosition() throws Exception {
 
-        ShipWreckService sws = new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -268,7 +268,7 @@ public class ShipWreckServiceTest {
         ship2location.add(5);
         Ship ship2 = new Ship(ship2location,"2");
 
-        boolean a = sws.overlayCompare(ship1,ship2);
+        boolean a = g.overlayCompare(ship1,ship2);
 
         assertEquals(a,true);
     }
@@ -276,7 +276,7 @@ public class ShipWreckServiceTest {
     @Test
     public void overlapCompareReturnsTrueShipsHaveTwoEqualPositions() throws Exception {
 
-        ShipWreckService sws = new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -290,7 +290,7 @@ public class ShipWreckServiceTest {
         ship2Location.add(4);
         Ship ship2 = new Ship(ship2Location,"2");
 
-        boolean a = sws.overlayCompare(ship1,ship2);
+        boolean a = g.overlayCompare(ship1,ship2);
 
         assertEquals(a,true);
     }
@@ -298,7 +298,7 @@ public class ShipWreckServiceTest {
     @Test
     public void overlapCompareReturnsFalseShipsAreDifferent() throws Exception {
 
-        ShipWreckService sws = new ShipWreckService();
+        Game g = new Game();
 
         ArrayList<Integer> ship1Location= new ArrayList<>();
         ship1Location.add(1);
@@ -313,7 +313,7 @@ public class ShipWreckServiceTest {
         Ship ship2 = new Ship(ship2location,"2");
 
 
-        boolean a = sws.overlayCompare(ship1,ship2);
+        boolean a = g.overlayCompare(ship1,ship2);
 
         assertEquals(a,false);
     }
